@@ -7,6 +7,42 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
-    
+
+
+    <script>
+        var appid = '15762bd27aea82787fbbe1b89402d93b';
+        var q = 'North Carolina';
+        var geolocationURL = `http://api.openweathermap.org/geo/1.0/direct?q=${q}&appid=${appid}`;
+
+        fetch(geolocationURL)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (locations) {
+            var city = locations[0];
+            console.log('Latitude', city.lat);
+            console.log('Longitude', city.lon);
+
+        var onecallURL = `https://api.openweathermap.org/data/3.0/onecall?lat=${city.lat}&lon=${city.lon}&exclude=${q}&appid=${appid}`;
+
+        fetch(onecallURL)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            var city = locations[0];
+            console.log(data);
+            var hEl = document.createElement('h1')
+            var tempEl = document.createElement('p')
+            hEl.textContent = city.name;
+            tempEl.textContent = 'Temperature: ' + data.current.temp;
+            document.body.appendChild(hEl);
+            document.body.appendChild(tempEl);
+
+        });
+    });
+
+
+    </script>
 </body>
 </html>
